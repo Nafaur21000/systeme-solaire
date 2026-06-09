@@ -4,10 +4,10 @@ export default class TextDisplay {
   constructor(title, description) {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
-    
-    // Résolution interne de la texture
-    this.canvas.width = 512;
-    this.canvas.height = 256;
+
+    // Panneau plus grand pour accueillir des textes plus longs
+    this.canvas.width = 1024;
+    this.canvas.height = 768;
 
     this.title = title;
     this.description = description;
@@ -21,21 +21,25 @@ export default class TextDisplay {
     const material = new THREE.SpriteMaterial({
       map: this.texture,
       transparent: true,
-      opacity: 0.0 // Caché au démarrage
+      depthTest: false,   // le panneau reste lisible meme devant une planete
+      opacity: 0.0
     });
 
     this.sprite = new THREE.Sprite(material);
-    // Proportion du panneau dans l'univers 3D
-    this.sprite.scale.set(4, 2, 1);
+    this.sprite.renderOrder = 999;
+    // Taille du panneau dans l'espace 3D (ratio 4:3 comme le canvas)
+    this.sprite.scale.set(6, 4.5, 1);
   }
 
-  // Alterne l'affichage (rendu visible ou invisible)
+  setVisible(v) {
+    this.isVisible = v;
+    this.sprite.material.opacity = v ? 1.0 : 0.0;
+  }
+
   toggle() {
-    this.isVisible = !this.isVisible;
-    this.sprite.material.opacity = this.isVisible ? 1.0 : 0.0;
+    this.setVisible(!this.isVisible);
   }
 
-  // Dessine l'interface utilisateur graphique 2D
   _draw() {
     const ctx = this.context;
     const w = this.canvas.width;
@@ -43,50 +47,46 @@ export default class TextDisplay {
 
     ctx.clearRect(0, 0, w, h);
 
-    // Fond futuriste semi-transparent
-    ctx.fillStyle = 'rgba(8, 12, 28, 0.85)';
-    if (ctx.roundRect) {
-      ctx.roundRect(10, 10, w - 20, h - 20, 15);
-    } else {
-      ctx.fillRect(10, 10, w - 20, h - 20);
-    }
-    ctx.fill();
+    // Fond sombre semi-transparent (style HUD)
+    ctx.fillStyle = 'rgba(10, 15, 30, 0.88)';
+    if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(15, 15, w - 30, h - 30, 28); ctx.fill(); }
+    else ctx.fillRect(15, 15, w - 30, h - 30);
 
-    // Bordure lumineuse néon cyan
+    // Bordure lumineuse
     ctx.strokeStyle = '#00ffcc';
-    ctx.lineWidth = 4;
-    ctx.stroke();
+    ctx.lineWidth = 5;
+    if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(15, 15, w - 30, h - 30, 28); ctx.stroke(); }
+    else ctx.strokeRect(15, 15, w - 30, h - 30);
 
-    // Nom de la planète
+    // Titre
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 30px Arial';
+    ctx.font = 'bold 56px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText(this.title, w / 2, 55);
+    ctx.fillText(this.title, w / 2, 95);
 
-    // Ligne de séparation
-    ctx.strokeStyle = 'rgba(0, 255, 204, 0.3)';
+    // Ligne de separation
+    ctx.strokeStyle = 'rgba(0, 255, 204, 0.5)';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(30, 75);
-    ctx.lineTo(w - 30, 75);
+    ctx.moveTo(60, 125);
+    ctx.lineTo(w - 60, 125);
     ctx.stroke();
 
-    // Paragraphe de description
+    // Description (justifiee a gauche, avec retour a la ligne)
     ctx.fillStyle = '#cbd5e1';
-    ctx.font = '18px Arial';
-    this._wrapText(ctx, this.description, w / 2, 115, w - 60, 26);
+    ctx.font = '34px Arial';
+    ctx.textAlign = 'left';
+    this._wrapText(ctx, this.description, 60, 190, w - 120, 48);
   }
 
-  // Permet de gérer les retours automatiques à la ligne
   _wrapText(ctx, text, x, y, maxWidth, lineHeight) {
     const words = text.split(' ');
     let line = '';
     let currentY = y;
 
     for (let n = 0; n < words.length; n++) {
-      let testLine = line + words[n] + ' ';
-      let metrics = ctx.measureText(testLine);
-      if (metrics.width > maxWidth && n > 0) {
+      const testLine = line + words[n] + ' ';
+      if (ctx.measureText(testLine).width > maxWidth && n > 0) {
         ctx.fillText(line, x, currentY);
         line = words[n] + ' ';
         currentY += lineHeight;

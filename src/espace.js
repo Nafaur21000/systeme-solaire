@@ -2,16 +2,17 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 
+// Pose initiale du rig en VR (vue d'ensemble, Soleil centre)
+export const INITIAL_RIG_POS = new THREE.Vector3(0, 18, 26);
+export const INITIAL_RIG_ROT = new THREE.Euler(-Math.PI / 5, 0, 0);
+
 export default class Espace {
   constructor() {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.set(0, 20, 35); // vue initiale sur ordinateur
 
-    // --- CAMERA RIG ---
-    // Un Object3D (Group) qui CONTIENT la camera. En VR, la camera est pilotee
-    // par le casque : on ne la bouge pas directement, on bouge le rig. C'est le
-    // rig qui definit ou se trouve le joueur dans le monde.
+    // --- CAMERA RIG : Object3D qui contient la camera ---
     this.cameraRig = new THREE.Group();
     this.cameraRig.add(this.camera);
     this.scene.add(this.cameraRig);
@@ -28,21 +29,27 @@ export default class Espace {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.minDistance = 3;
-    this.controls.maxDistance = 200;       // augmente pour pouvoir voir tout le systeme
-    this.controls.target.set(0, 0, 0);     // on regarde le Soleil (a l'origine)
+    this.controls.maxDistance = 200;
+    this.controls.target.set(0, 0, 0);
 
-    // --- ECOUTEUR AUDIO SUR LA CAMERA ---
+    // --- AUDIO ---
     this.audioListener = new THREE.AudioListener();
     this.camera.add(this.audioListener);
 
+    // Son d'ambiance global (different des sons de planetes), en boucle, en fond
+    this.ambient = new THREE.Audio(this.audioListener);
+    this.ambient.setLoop(true);
+    this.ambient.setVolume(0.22);
+    new THREE.AudioLoader().load('/audio/ambiance.mp3', (buf) => {
+      this.ambient.setBuffer(buf);
+    }, undefined, () => console.error("Erreur chargement de /audio/ambiance.mp3"));
+
     // --- PLACEMENT DU JOUEUR EN VR ---
-    // A l'entree dans le casque : on monte le rig au-dessus du systeme et on
-    // l'incline de ~45 degres vers le bas => vue "du dessus", Soleil au centre.
-    // A la sortie : on remet tout a zero pour retrouver la vue souris (OrbitControls).
     this.renderer.xr.addEventListener('sessionstart', () => {
       this.controls.enabled = false;
-      this.cameraRig.position.set(0, 18, 26);
-      this.cameraRig.rotation.set(-Math.PI / 5, 0, 0);
+      this.cameraRig.position.copy(INITIAL_RIG_POS);
+      this.cameraRig.rotation.copy(INITIAL_RIG_ROT);
+      this.startAmbient();
     });
     this.renderer.xr.addEventListener('sessionend', () => {
       this.cameraRig.position.set(0, 0, 0);
@@ -57,6 +64,16 @@ export default class Espace {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     });
+  }
+
+  // Demarre le son d'ambiance (a appeler sur une action utilisateur a cause
+  // des regles d'autoplay des navigateurs)
+  startAmbient() {
+    const ctx = this.audioListener.context;
+    if (ctx && ctx.state === 'suspended') ctx.resume();
+    if (this.ambient && this.ambient.buffer && !this.ambient.isPlaying) {
+      this.ambient.play();
+    }
   }
 
   _createStarfield() {
@@ -80,7 +97,6 @@ export default class Espace {
   }
 
   render() {
-    // OrbitControls ne sert que sur ordinateur ; en VR c'est le casque qui pilote
     if (!this.renderer.xr.isPresenting) this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }

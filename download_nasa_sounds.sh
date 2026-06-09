@@ -1,10 +1,7 @@
 #!/bin/bash
 # Telecharge les sons NASA dans public/audio/ avec les noms attendus par
-# planetes.json. A lancer depuis la RACINE du projet (dossier contenant public/) :
-#   bash download_nasa_sounds.sh
-#
-# -f : curl echoue (et n'ecrit rien) si le serveur renvoie une erreur 404,
-#      ca evite de se retrouver avec un faux .mp3 qui est en fait une page web.
+# planetes.json (+ le son d'ambiance global). A lancer depuis la RACINE du
+# projet (dossier contenant public/) :  bash download_nasa_sounds.sh
 
 mkdir -p public/audio
 cd public/audio || exit 1
@@ -21,6 +18,10 @@ dl () {  # dl <nom_fichier> <url>
   fi
 }
 
+# Son d'ambiance global (Cassini - Encelade), different des sons de planetes
+dl ambiance.mp3           "https://www.nasa.gov/wp-content/uploads/2015/01/584796main_enceladus.mp3"
+
+# Sons par planete
 dl earth_chorus.mp3        "https://www.nasa.gov/wp-content/uploads/2015/01/693857main_emfisis_chorus_1.mp3"
 dl apollo11_countdown.mp3  "https://www.nasa.gov/wp-content/uploads/2015/01/590320main_ringtone_apollo11_countdown.mp3"
 dl jupiter_sounds.mp3      "https://www.nasa.gov/wp-content/uploads/2015/01/603921main_voyager_jupiter_lightning.mp3"

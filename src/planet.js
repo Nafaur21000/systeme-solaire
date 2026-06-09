@@ -2,7 +2,6 @@ import { Group, SphereGeometry, MeshBasicMaterial, MeshStandardMaterial, Mesh, T
 import TextDisplay from './utils/textDisplay.js';
 import { sim } from './state.js';
 
-// Vecteur reutilise pour orienter les panneaux (evite d'en creer un par frame)
 const _camWorldPos = new Vector3();
 
 export default class Planet {
@@ -49,12 +48,12 @@ export default class Planet {
       this.mesh.receiveShadow = true;
     }
 
-    // Associe l'interaction de selection sur le maillage de l'astre
-    this.mesh.onSelected = () => this.onPlanetClicked();
+    // Permet de retrouver cette instance Planet a partir du maillage touche par le laser
+    this.mesh.planetRef = this;
 
     this.tilt.add(this.mesh);
 
-    // --- INSTANCIATION DU TEXT DISPLAY ---
+    // Panneau de texte (cache au depart)
     this.textDisplay = new TextDisplay(this.name, this.description);
     this.textDisplay.sprite.position.set(0, this.rayon + 1.8, 0);
     this.anchor.add(this.textDisplay.sprite);
@@ -67,10 +66,9 @@ export default class Planet {
       this.pivot.add(lumiere);
     }
 
-    // Initialisation audio avec le fichier d'ambiance de la NASA
     if (this.audioListener && this.soundPath) {
       this.sound = new Audio(this.audioListener);
-      this.sound.setLoop(true); // ambiance : on boucle tant que le panneau est ouvert
+      this.sound.setLoop(true);
       new AudioLoader().load(this.soundPath, (buf) => {
         this.sound.setBuffer(buf);
         this.sound.setVolume(0.5);
@@ -78,46 +76,42 @@ export default class Planet {
     }
   }
 
-  onPlanetClicked() {
-    console.log(`Planete selectionnee : ${this.name}`);
+  // Affiche le panneau et lance le son de cette planete (un seul son a la fois)
+  showInfo() {
+    if (this.textDisplay) this.textDisplay.setVisible(true);
 
-    // Alterne l'affichage / masquage du panneau textuel
-    if (this.textDisplay) this.textDisplay.toggle();
-    const nowVisible = this.textDisplay ? this.textDisplay.isVisible : true;
-
-    // Un seul son a la fois : on coupe le son de la planete precedente
     if (sim.activeSound && sim.activeSound !== this.sound && sim.activeSound.isPlaying) {
       sim.activeSound.stop();
     }
-
     if (this.sound && this.sound.buffer) {
-      // Reveille le contexte audio (les navigateurs le demarrent en pause)
       const ctx = this.sound.context;
       if (ctx && ctx.state === 'suspended') ctx.resume();
-
-      if (nowVisible) {
-        if (this.sound.isPlaying) this.sound.stop();
-        this.sound.play();
-        sim.activeSound = this.sound;
-      } else {
-        // On a referme le panneau de cette planete : on coupe son son
-        if (this.sound.isPlaying) this.sound.stop();
-        if (sim.activeSound === this.sound) sim.activeSound = null;
-      }
+      if (!this.sound.isPlaying) this.sound.play();
+      sim.activeSound = this.sound;
     }
   }
 
-  // Force le panneau de texte a faire face a la camera
+  // Cache le panneau et coupe le son de cette planete
+  hideInfo() {
+    if (this.textDisplay) this.textDisplay.setVisible(false);
+    if (this.sound && this.sound.isPlaying) this.sound.stop();
+    if (sim.activeSound === this.sound) sim.activeSound = null;
+  }
+
+  // Position de la planete dans le monde (elle bouge car elle orbite)
+  getWorldPosition(target) {
+    return this.mesh.getWorldPosition(target);
+  }
+
   lookAtCamera(camera) {
     if (this.textDisplay && this.textDisplay.isVisible) {
-      camera.getWorldPosition(_camWorldPos); // position monde (compatible camera rig)
+      camera.getWorldPosition(_camWorldPos);
       this.textDisplay.sprite.lookAt(_camWorldPos);
     }
   }
 
   update() {
-    // sim.speed * 0.5 : la nouvelle vitesse de reference (curseur a 1) vaut
-    // la moitie de l'ancienne, comme demande.
+    // sim.speed * 0.5 : le curseur a 1 vaut la moitie de l'ancienne vitesse
     const s = sim.speed * 0.5;
     this.mesh.rotation.y += this.vitesseRotation * s;
     this.pivot.rotation.y += this.vitesseOrbite * s;

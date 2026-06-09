@@ -9,7 +9,7 @@
     "emissif": true,
     "lumiere": true,
     "soundPath": "/audio/solar_wind.mp3",
-    "description": "Etoile centrale de notre systeme composee principalement d'hydrogene et d'helium."
+    "description": "Etoile centrale du systeme, composee surtout d'hydrogene et d'helium. Diametre d'environ 1,39 million de km, soit 109 fois la Terre. Sa surface atteint pres de 5 500 degres, son coeur environ 15 millions. La fusion nucleaire y transforme l'hydrogene en helium et produit toute la lumiere du systeme. A lui seul, il concentre 99,8 % de la masse totale."
   },
   {
     "name": "Mercure",
@@ -20,7 +20,7 @@
     "vitesseOrbite": 0.04,
     "inclinaison": 0.03,
     "soundPath": "/audio/solar_wind.mp3",
-    "description": "Plus petite planete du systeme solaire et la plus proche du Soleil."
+    "description": "Plus petite planete et la plus proche du Soleil. Diametre de 4 879 km. Une annee ne dure que 88 jours terrestres. Sans atmosphere pour retenir la chaleur, sa surface passe de -170 degres la nuit a +430 degres le jour. Elle est criblee de crateres et ne possede aucune lune."
   },
   {
     "name": "Venus",
@@ -31,7 +31,7 @@
     "vitesseOrbite": 0.015,
     "inclinaison": 0.1,
     "soundPath": "/audio/venus_lightning.mp3",
-    "description": "Planete extremement chaude avec une atmosphere epaisse de CO2."
+    "description": "Presque la jumelle de la Terre par la taille (12 104 km), mais un enfer. Son atmosphere epaisse de CO2 et ses nuages d'acide sulfurique provoquent un effet de serre extreme : environ 465 degres en surface, ce qui en fait la planete la plus chaude. Elle tourne sur elle-meme a l'envers et tres lentement. Aucune lune."
   },
   {
     "name": "Terre",
@@ -42,17 +42,17 @@
     "vitesseOrbite": 0.005,
     "inclinaison": 23.5,
     "soundPath": "/audio/earth_chorus.mp3",
-    "description": "Notre planete bleue, la seule connue pour abriter la vie.",
+    "description": "Notre planete, la seule connue a abriter la vie. Diametre de 12 742 km. Environ 71 % de sa surface est couverte d'eau liquide. Son atmosphere d'azote et d'oxygene maintient une temperature moyenne d'environ 15 degres. Elle fait un tour sur elle-meme en 24 h et un tour du Soleil en 365,25 jours. Un seul satellite : la Lune.",
     "moons": [
-      { 
-        "name": "Lune", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.27, 
-        "vitesseRotation": 0.01,  
-        "distanceOrbite": 1.5, 
+      {
+        "name": "Lune",
+        "texturePath": "/2k_moon.jpg",
+        "rayon": 0.27,
+        "vitesseRotation": 0.01,
+        "distanceOrbite": 1.5,
         "vitesseOrbite": 0.03,
         "soundPath": "/audio/apollo11_countdown.mp3",
-        "description": "Unique satellite naturel de la Terre."
+        "description": "Unique satellite naturel de la Terre, a 384 400 km. Diametre de 3 474 km. Sans atmosphere, couverte de crateres et de mers de lave solidifiee. Elle montre toujours la meme face a la Terre et cause les marees. Premiers pas humains en 1969 avec Apollo 11."
       }
     ]
   },
@@ -65,26 +65,10 @@
     "vitesseOrbite": 0.008,
     "inclinaison": 25.2,
     "soundPath": "/audio/mars_quake.mp3",
-    "description": "La planete rouge, possedant de grands volcans eteints.",
+    "description": "La planete rouge, dont la couleur vient de l'oxyde de fer (la rouille). Diametre de 6 779 km. Fine atmosphere de CO2 et temperature moyenne d'environ -60 degres. Elle abrite Olympus Mons, plus haut volcan du systeme (22 km), et Valles Marineris, un canyon geant. Son jour dure 24 h 37. Deux petites lunes : Phobos et Deimos.",
     "moons": [
-      { 
-        "name": "Phobos", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.08, 
-        "vitesseRotation": 0.005, 
-        "distanceOrbite": 0.7, 
-        "vitesseOrbite": 0.09, 
-        "description": "Plus grande lune de Mars." 
-      },
-      { 
-        "name": "Deimos", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.06, 
-        "vitesseRotation": 0.005, 
-        "distanceOrbite": 1.1, 
-        "vitesseOrbite": 0.05, 
-        "description": "Plus petite lune de Mars." 
-      }
+      { "name": "Phobos", "texturePath": "/2k_moon.jpg", "rayon": 0.08, "vitesseRotation": 0.005, "distanceOrbite": 0.7, "vitesseOrbite": 0.09, "description": "Plus grande des deux lunes de Mars, elle se rapproche lentement de la planete et finira par se disloquer." },
+      { "name": "Deimos", "texturePath": "/2k_moon.jpg", "rayon": 0.06, "vitesseRotation": 0.005, "distanceOrbite": 1.1, "vitesseOrbite": 0.05, "description": "Plus petite lune de Mars, a la surface lisse couverte de poussiere." }
     ]
   },
   {
@@ -96,44 +80,12 @@
     "vitesseOrbite": 0.004,
     "inclinaison": 3.1,
     "soundPath": "/audio/jupiter_sounds.mp3",
-    "description": "Geante gazeuse, la plus grande planete du systeme.",
+    "description": "Plus grande planete, une geante gazeuse de 139 820 km de diametre, qui pourrait contenir plus de 1 300 Terres. Composee d'hydrogene et d'helium, sans surface solide. Sa Grande Tache rouge est une tempete plus large que la Terre, active depuis des siecles. Elle tourne le plus vite de toutes : un jour en 10 h. Elle compte 101 lunes connues.",
     "moons": [
-      { 
-        "name": "Io", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.22, 
-        "vitesseRotation": 0.008, 
-        "distanceOrbite": 5.5,  
-        "vitesseOrbite": 0.06, 
-        "description": "Astre le plus actif volcaniquement." 
-      },
-      { 
-        "name": "Europa", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.18, 
-        "vitesseRotation": 0.008, 
-        "distanceOrbite": 7,    
-        "vitesseOrbite": 0.04, 
-        "description": "Monde glace recouvrant un ocean liquide." 
-      },
-      { 
-        "name": "Ganymede", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.25, 
-        "vitesseRotation": 0.007, 
-        "distanceOrbite": 9,    
-        "vitesseOrbite": 0.025, 
-        "description": "Plus grande lune du systeme solaire." 
-      },
-      { 
-        "name": "Callisto", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.22, 
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 12,   
-        "vitesseOrbite": 0.015, 
-        "description": "Corps le plus creuse de crateres." 
-      }
+      { "name": "Io",       "texturePath": "/2k_moon.jpg", "rayon": 0.22, "vitesseRotation": 0.008, "distanceOrbite": 5.5,  "vitesseOrbite": 0.06, "description": "Corps le plus actif volcaniquement du systeme solaire, avec des centaines de volcans." },
+      { "name": "Europa",   "texturePath": "/2k_moon.jpg", "rayon": 0.18, "vitesseRotation": 0.008, "distanceOrbite": 7,    "vitesseOrbite": 0.04, "description": "Monde glace cachant un ocean d'eau liquide, l'un des meilleurs espoirs de vie extraterrestre." },
+      { "name": "Ganymede", "texturePath": "/2k_moon.jpg", "rayon": 0.25, "vitesseRotation": 0.007, "distanceOrbite": 9,    "vitesseOrbite": 0.025, "description": "Plus grande lune du systeme solaire, plus grosse que la planete Mercure." },
+      { "name": "Callisto", "texturePath": "/2k_moon.jpg", "rayon": 0.22, "vitesseRotation": 0.006, "distanceOrbite": 12,   "vitesseOrbite": 0.015, "description": "Surface la plus cratereisee connue, temoin de milliards d'annees d'impacts." }
     ]
   },
   {
@@ -145,44 +97,12 @@
     "vitesseOrbite": 0.002,
     "inclinaison": 26.7,
     "soundPath": "/audio/saturn_radio.mp3",
-    "description": "Celebre geante gazeuse entouree de spectaculaires anneaux.",
+    "description": "Geante gazeuse celebre pour ses anneaux de glace et de roche. Diametre de 116 460 km. Si peu dense qu'elle flotterait sur l'eau. Composee surtout d'hydrogene et d'helium. Avec 285 lunes confirmees, elle detient le record du systeme solaire ; sa plus grande lune, Titan, possede une atmosphere dense.",
     "moons": [
-      { 
-        "name": "Mimas", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.12, 
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 4.5, 
-        "vitesseOrbite": 0.07, 
-        "description": "Ressemble a l'Etoile de la Mort." 
-      },
-      { 
-        "name": "Enceladus", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.12, 
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 5.5, 
-        "vitesseOrbite": 0.06, 
-        "description": "Possede des geysers d'eau glacee." 
-      },
-      { 
-        "name": "Rhea", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.18, 
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 7,   
-        "vitesseOrbite": 0.035, 
-        "description": "Corps glace constelle de crateres." 
-      },
-      { 
-        "name": "Titan", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.3,  
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 9.5, 
-        "vitesseOrbite": 0.02, 
-        "description": "Seule lune avec une atmosphere dense." 
-      }
+      { "name": "Mimas",     "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 4.5, "vitesseOrbite": 0.07, "description": "Son grand cratere lui donne un air d'Etoile de la Mort de Star Wars." },
+      { "name": "Enceladus", "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 5.5, "vitesseOrbite": 0.06, "description": "Lune glacee projetant des geysers d'eau dans l'espace depuis un ocean souterrain." },
+      { "name": "Rhea",      "texturePath": "/2k_moon.jpg", "rayon": 0.18, "vitesseRotation": 0.006, "distanceOrbite": 7,   "vitesseOrbite": 0.035, "description": "Deuxieme plus grande lune de Saturne, un monde de glace et de crateres." },
+      { "name": "Titan",     "texturePath": "/2k_moon.jpg", "rayon": 0.3,  "vitesseRotation": 0.006, "distanceOrbite": 9.5, "vitesseOrbite": 0.02, "description": "Seule lune a posseder une atmosphere dense, avec des lacs de methane liquide." }
     ]
   },
   {
@@ -194,53 +114,10 @@
     "vitesseOrbite": 0.0012,
     "inclinaison": 97.8,
     "soundPath": "/audio/plasma_waves.mp3",
-    "description": "Geante de glace ayant un axe de rotation tres incline.",
+    "description": "Geante de glace de 50 724 km de diametre, a la couleur bleu-vert due au methane. Sa particularite : elle roule sur le cote, son axe etant incline a 98 degres. C'est l'une des planetes les plus froides, jusqu'a -224 degres. Une annee y dure 84 ans terrestres. Elle compte 28 lunes connues.",
     "moons": [
-      { 
-        "name": "Miranda", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.12, 
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 2.6, 
-        "vitesseOrbite": 0.07, 
-        "description": "Presente des canyons geants." 
-      },
-      { 
-        "name": "Ariel", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.15, 
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 3.3, 
-        "vitesseOrbite": 0.055, 
-        "description": "Lune glacee la plus jeune d'Uranus." 
-      },
-      { 
-        "name": "Umbriel", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.15, 
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 4.1, 
-        "vitesseOrbite": 0.04, 
-        "description": "Lune tres sombre et crateree." 
-      },
-      { 
-        "name": "Titania", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.2,  
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 5.3, 
-        "vitesseOrbite": 0.025, 
-        "description": "Plus grande lune d'Uranus." 
-      },
-      { 
-        "name": "Oberon", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.2,  
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 6.6, 
-        "vitesseOrbite": 0.018, 
-        "description": "Lune la plus externe d'Uranus." 
-      }
+      { "name": "Miranda", "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 2.6, "vitesseOrbite": 0.07, "description": "Petite lune au relief chaotique, avec des falaises parmi les plus hautes connues." },
+      { "name": "Ariel",   "texturePath": "/2k_moon.jpg", "rayon": 0.15, "vitesseRotation": 0.006, "distanceOrbite": 3.3, "vitesseOrbite": 0.055, "description": "Surface relativement jeune et claire, sillonnee de longues vallees." }
     ]
   },
   {
@@ -252,26 +129,10 @@
     "vitesseOrbite": 0.0007,
     "inclinaison": 28.3,
     "soundPath": "/audio/plasma_waves.mp3",
-    "description": "Planete la plus eloignee, balayee par des vents ultra-rapides.",
+    "description": "Planete la plus eloignee, geante de glace bleue de 49 244 km de diametre. Elle est balayee par les vents les plus violents du systeme, jusqu'a 2 000 km/h. Tres froide, environ -214 degres. Une annee y dure 165 ans terrestres. Elle possede 16 lunes, dont Triton qui orbite en sens inverse.",
     "moons": [
-      { 
-        "name": "Proteus", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.12, 
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 1.8, 
-        "vitesseOrbite": 0.065, 
-        "description": "Lune sombre et tres irreguliere." 
-      },
-      { 
-        "name": "Triton", 
-        "texturePath": "/2k_moon.jpg", 
-        "rayon": 0.2,  
-        "vitesseRotation": 0.006, 
-        "distanceOrbite": 2.5, 
-        "vitesseOrbite": 0.04, 
-        "description": "Orbite dans le sens inverse de sa planete." 
-      }
+      { "name": "Proteus", "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 1.8, "vitesseOrbite": 0.065, "description": "Lune sombre et irreguliere, l'une des plus grandes a ne pas etre spherique." },
+      { "name": "Triton",  "texturePath": "/2k_moon.jpg", "rayon": 0.2,  "vitesseRotation": 0.006, "distanceOrbite": 2.5, "vitesseOrbite": 0.04, "description": "Orbite en sens inverse de Neptune : c'est sans doute un corps capture. Elle a des geysers d'azote." }
     ]
   }
 ]
