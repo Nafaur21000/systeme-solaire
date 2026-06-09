@@ -1,0 +1,72 @@
+[
+  {
+    "name": "sun",
+    "radius": 696340,
+    "texture": "sun.jpg",
+    "rotation_period": 25.38
+  },
+  {
+    "name": "mercury",
+    "radius": 2439.7,
+    "distance": 57910,
+    "orbital_period": 88,
+    "texture": "mercury.jpg",
+    "rotation_period": 58.6
+  },
+  {
+    "name": "venus",
+    "radius": 6051.8,
+    "distance": 108200,
+    "orbital_period": 224.7,
+    "texture": "venus.jpg",
+    "rotation_period": 243
+  },
+  {
+    "name": "earth",
+    "radius": 6371,
+    "distance": 149600,
+    "orbital_period": 365.25,
+    "texture": "earth.jpg",
+    "rotation_period": 1
+  },
+  {
+    "name": "mars",
+    "radius": 3389.5,
+    "distance": 227940,
+    "orbital_period": 687,
+    "texture": "mars.jpg",
+    "rotation_period": 1.03
+  },
+  {
+    "name": "jupiter",
+    "radius": 69911,
+    "distance": 778547,
+    "orbital_period": 4331.6,
+    "texture": "jupiter.jpg",
+    "rotation_period": 0.41
+  },
+  {
+    "name": "saturn",
+    "radius": 58232,
+    "distance": 1433449,
+    "orbital_period": 10759.2,
+    "texture": "saturn.jpg",
+    "rotation_period": 0.45
+  },
+  {
+    "name": "pluto",
+    "radius": 1188.3,
+    "distance": 5906380,
+    "orbital_period": 90560,
+    "texture": "pluto.jpg",
+    "rotation_period": 6.39
+  },
+  {
+    "name": "uranus",
+    "radius": 25362,
+    "distance": 2870658,
+    "orbital_period": 30687.15,
+    "texture": "uranus.jpg",
+    "rotation_period": -0.72
+  }
+]
