@@ -67,8 +67,24 @@
     "soundPath": "/audio/mars_quake.mp3",
     "description": "La planete rouge, possedant de grands volcans eteints.",
     "moons": [
-      { "name": "Phobos", "texturePath": "/2k_moon.jpg", "rayon": 0.08, "vitesseRotation": 0.005, "distanceOrbite": 0.7, "vitesseOrbite": 0.09, "description": "Plus grande lune de Mars." },
-      { "name": "Deimos", "texturePath": "/2k_moon.jpg", "rayon": 0.06, "vitesseRotation": 0.005, "distanceOrbite": 1.1, "vitesseOrbite": 0.05, "description": "Plus petite lune de Mars." }
+      { 
+        "name": "Phobos", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.08, 
+        "vitesseRotation": 0.005, 
+        "distanceOrbite": 0.7, 
+        "vitesseOrbite": 0.09, 
+        "description": "Plus grande lune de Mars." 
+      },
+      { 
+        "name": "Deimos", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.06, 
+        "vitesseRotation": 0.005, 
+        "distanceOrbite": 1.1, 
+        "vitesseOrbite": 0.05, 
+        "description": "Plus petite lune de Mars." 
+      }
     ]
   },
   {
@@ -82,10 +98,42 @@
     "soundPath": "/audio/jupiter_sounds.mp3",
     "description": "Geante gazeuse, la plus grande planete du systeme.",
     "moons": [
-      { "name": "Io",       "texturePath": "/2k_moon.jpg", "rayon": 0.22, "vitesseRotation": 0.008, "distanceOrbite": 5.5,  "vitesseOrbite": 0.06, "description": "Astre le plus actif volcaniquement." },
-      { "name": "Europa",   "texturePath": "/2k_moon.jpg", "rayon": 0.18, "vitesseRotation": 0.008, "distanceOrbite": 7,    "vitesseOrbite": 0.04, "description": "Monde glace recouvrant un ocean liquide." },
-      { "name": "Ganymede", "texturePath": "/2k_moon.jpg", "rayon": 0.25, "vitesseRotation": 0.007, "distanceOrbite": 9,    "vitesseOrbite": 0.025, "description": "Plus grande lune du systeme solaire." },
-      { "name": "Callisto", "texturePath": "/2k_moon.jpg", "rayon": 0.22, "vitesseRotation": 0.006, "distanceOrbite": 12,   "vitesseOrbite": 0.015, "description": "Corps le plus creuse de crateres." }
+      { 
+        "name": "Io", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.22, 
+        "vitesseRotation": 0.008, 
+        "distanceOrbite": 5.5,  
+        "vitesseOrbite": 0.06, 
+        "description": "Astre le plus actif volcaniquement." 
+      },
+      { 
+        "name": "Europa", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.18, 
+        "vitesseRotation": 0.008, 
+        "distanceOrbite": 7,    
+        "vitesseOrbite": 0.04, 
+        "description": "Monde glace recouvrant un ocean liquide." 
+      },
+      { 
+        "name": "Ganymede", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.25, 
+        "vitesseRotation": 0.007, 
+        "distanceOrbite": 9,    
+        "vitesseOrbite": 0.025, 
+        "description": "Plus grande lune du systeme solaire." 
+      },
+      { 
+        "name": "Callisto", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.22, 
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 12,   
+        "vitesseOrbite": 0.015, 
+        "description": "Corps le plus creuse de crateres." 
+      }
     ]
   },
   {
@@ -99,10 +147,42 @@
     "soundPath": "/audio/saturn_radio.mp3",
     "description": "Celebre geante gazeuse entouree de spectaculaires anneaux.",
     "moons": [
-      { "name": "Mimas",     "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 4.5, "vitesseOrbite": 0.07, "description": "Ressemble a l'Etoile de la Mort." },
-      { "name": "Enceladus", "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 5.5, "vitesseOrbite": 0.06, "description": "Possede des geysers d'eau glacee." },
-      { "name": "Rhea",      "texturePath": "/2k_moon.jpg", "rayon": 0.18, "vitesseRotation": 0.006, "distanceOrbite": 7,   "vitesseOrbite": 0.035, "description": "Corps glace constelle de crateres." },
-      { "name": "Titan",     "texturePath": "/2k_moon.jpg", "rayon": 0.3,  "vitesseRotation": 0.006, "distanceOrbite": 9.5, "vitesseOrbite": 0.02, "description": "Seule lune avec une atmosphere dense." }
+      { 
+        "name": "Mimas", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.12, 
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 4.5, 
+        "vitesseOrbite": 0.07, 
+        "description": "Ressemble a l'Etoile de la Mort." 
+      },
+      { 
+        "name": "Enceladus", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.12, 
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 5.5, 
+        "vitesseOrbite": 0.06, 
+        "description": "Possede des geysers d'eau glacee." 
+      },
+      { 
+        "name": "Rhea", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.18, 
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 7,   
+        "vitesseOrbite": 0.035, 
+        "description": "Corps glace constelle de crateres." 
+      },
+      { 
+        "name": "Titan", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.3,  
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 9.5, 
+        "vitesseOrbite": 0.02, 
+        "description": "Seule lune avec une atmosphere dense." 
+      }
     ]
   },
   {
@@ -116,8 +196,51 @@
     "soundPath": "/audio/plasma_waves.mp3",
     "description": "Geante de glace ayant un axe de rotation tres incline.",
     "moons": [
-      { "name": "Miranda", "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 2.6, "vitesseOrbite": 0.07, "description": "Presente des canyons geants." },
-      { "name": "Ariel",   "texturePath": "/2k_moon.jpg", "rayon": 0.15, "vitesseRotation": 0.006, "distanceOrbite": 3.3, "vitesseOrbite": 0.055, "description": "Lune glacee la plus jeune d'Uranus." }
+      { 
+        "name": "Miranda", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.12, 
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 2.6, 
+        "vitesseOrbite": 0.07, 
+        "description": "Presente des canyons geants." 
+      },
+      { 
+        "name": "Ariel", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.15, 
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 3.3, 
+        "vitesseOrbite": 0.055, 
+        "description": "Lune glacee la plus jeune d'Uranus." 
+      },
+      { 
+        "name": "Umbriel", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.15, 
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 4.1, 
+        "vitesseOrbite": 0.04, 
+        "description": "Lune tres sombre et crateree." 
+      },
+      { 
+        "name": "Titania", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.2,  
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 5.3, 
+        "vitesseOrbite": 0.025, 
+        "description": "Plus grande lune d'Uranus." 
+      },
+      { 
+        "name": "Oberon", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.2,  
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 6.6, 
+        "vitesseOrbite": 0.018, 
+        "description": "Lune la plus externe d'Uranus." 
+      }
     ]
   },
   {
@@ -131,8 +254,24 @@
     "soundPath": "/audio/plasma_waves.mp3",
     "description": "Planete la plus eloignee, balayee par des vents ultra-rapides.",
     "moons": [
-      { "name": "Proteus", "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 1.8, "vitesseOrbite": 0.065, "description": "Lune sombre et tres irreguliere." },
-      { "name": "Triton",  "texturePath": "/2k_moon.jpg", "rayon": 0.2,  "vitesseRotation": 0.006, "distanceOrbite": 2.5, "vitesseOrbite": 0.04, "description": "Orbite dans le sens inverse de sa planete." }
+      { 
+        "name": "Proteus", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.12, 
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 1.8, 
+        "vitesseOrbite": 0.065, 
+        "description": "Lune sombre et tres irreguliere." 
+      },
+      { 
+        "name": "Triton", 
+        "texturePath": "/2k_moon.jpg", 
+        "rayon": 0.2,  
+        "vitesseRotation": 0.006, 
+        "distanceOrbite": 2.5, 
+        "vitesseOrbite": 0.04, 
+        "description": "Orbite dans le sens inverse de sa planete." 
+      }
     ]
   }
 ]

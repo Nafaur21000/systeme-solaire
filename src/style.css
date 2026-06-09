@@ -1,0 +1,21 @@
+/* Reset basique pour que le canvas 3D occupe tout l'ecran */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { overflow: hidden; background: #000; font-family: Arial, sans-serif; }
+canvas { display: block; }
+
+/* --- Curseur de vitesse (visible sur ordinateur, cache en VR) --- */
+#speed-ui {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  padding: 10px 14px;
+  background: rgba(10, 15, 30, 0.85);
+  border: 2px solid #00ffcc;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  user-select: none;
+}
+#speed-ui label { display: block; margin-bottom: 6px; }
+#speed-ui input[type="range"] { width: 180px; accent-color: #00ffcc; cursor: pointer; }

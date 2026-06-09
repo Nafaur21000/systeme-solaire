@@ -6,7 +6,15 @@ export default class Espace {
   constructor() {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.set(0, 10, 25);
+    this.camera.position.set(0, 20, 35); // vue initiale sur ordinateur
+
+    // --- CAMERA RIG ---
+    // Un Object3D (Group) qui CONTIENT la camera. En VR, la camera est pilotee
+    // par le casque : on ne la bouge pas directement, on bouge le rig. C'est le
+    // rig qui definit ou se trouve le joueur dans le monde.
+    this.cameraRig = new THREE.Group();
+    this.cameraRig.add(this.camera);
+    this.scene.add(this.cameraRig);
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -20,11 +28,27 @@ export default class Espace {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.minDistance = 3;
-    this.controls.maxDistance = 80;
+    this.controls.maxDistance = 200;       // augmente pour pouvoir voir tout le systeme
+    this.controls.target.set(0, 0, 0);     // on regarde le Soleil (a l'origine)
 
-    // --- COURS 9 : ÉCOUTEUR AUDIO SUR LA CAMÉRA ---
+    // --- ECOUTEUR AUDIO SUR LA CAMERA ---
     this.audioListener = new THREE.AudioListener();
     this.camera.add(this.audioListener);
+
+    // --- PLACEMENT DU JOUEUR EN VR ---
+    // A l'entree dans le casque : on monte le rig au-dessus du systeme et on
+    // l'incline de ~45 degres vers le bas => vue "du dessus", Soleil au centre.
+    // A la sortie : on remet tout a zero pour retrouver la vue souris (OrbitControls).
+    this.renderer.xr.addEventListener('sessionstart', () => {
+      this.controls.enabled = false;
+      this.cameraRig.position.set(0, 45, 45);
+      this.cameraRig.rotation.set(-Math.PI / 4, 0, 0);
+    });
+    this.renderer.xr.addEventListener('sessionend', () => {
+      this.cameraRig.position.set(0, 0, 0);
+      this.cameraRig.rotation.set(0, 0, 0);
+      this.controls.enabled = true;
+    });
 
     this._createStarfield();
 
@@ -56,7 +80,8 @@ export default class Espace {
   }
 
   render() {
-    this.controls.update();
+    // OrbitControls ne sert que sur ordinateur ; en VR c'est le casque qui pilote
+    if (!this.renderer.xr.isPresenting) this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
 }
