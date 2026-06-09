@@ -29,7 +29,10 @@ const controllers = [];
 for (let i = 0; i < 2; i++) {
   const controller = espace.renderer.xr.getController(i);
   controller.add(createLaserPointer());
-  espace.scene.add(controller);
+  // IMPORTANT : on ajoute la manette au cameraRig (et PAS a la scene). Sinon elle
+  // reste a l'origine du monde (sur le Soleil) pendant que le rig te deplace,
+  // donc le laser part du Soleil et tu ne peux rien viser.
+  espace.cameraRig.add(controller);
 
   // --- CLIC DE LA GACHETTE VR ---
   controller.addEventListener('select', () => {
@@ -80,21 +83,37 @@ window.addEventListener('pointerup', (e) => {
   }
 });
 
-// 3. --- REGLAGE DE LA VITESSE ---
-
-// 3a. En VR : joystick (thumbstick) vertical de n'importe quelle manette.
-//     Vers le haut = plus vite, vers le bas = plus lent.
-function updateSpeedFromVR() {
+// 3. --- COMMANDES VR AUX JOYSTICKS ---
+//   Joystick DROIT (vertical)  = vitesse de la simulation (haut = plus vite)
+//   Joystick GAUCHE (vertical) = zoom (haut = se rapprocher du Soleil)
+const _zoomDir = new THREE.Vector3();
+function updateVRControls() {
   const session = espace.renderer.xr.getSession();
   if (!session) return;
+  const rig = espace.cameraRig;
+
   for (const src of session.inputSources) {
     const gp = src.gamepad;
     if (!gp || !gp.axes) continue;
     // Sur Quest le joystick est en axes[2]/axes[3]; sinon on prend axes[1].
     const y = gp.axes.length >= 4 ? gp.axes[3] : gp.axes[1];
-    if (Math.abs(y) > 0.15) {
+    if (Math.abs(y) < 0.15) continue;
+
+    if (src.handedness === 'right') {
+      // Vitesse (y<0 = stick vers le haut = plus vite)
       sim.speed = Math.min(5, Math.max(0, sim.speed - y * 0.02));
       if (slider) slider.value = sim.speed;
+    } else {
+      // Zoom : on rapproche / eloigne le rig du Soleil (origine du monde).
+      // On se deplace le long de la ligne origine->rig, donc le Soleil
+      // reste centre dans la vue.
+      _zoomDir.copy(rig.position);
+      const dist = _zoomDir.length();
+      if (dist > 0.001) {
+        _zoomDir.normalize();
+        const newDist = Math.min(160, Math.max(8, dist + y * 0.8)); // y<0 = se rapproche
+        rig.position.copy(_zoomDir).multiplyScalar(newDist);
+      }
     }
   }
 }
@@ -125,7 +144,7 @@ espace.renderer.xr.addEventListener('sessionend',   () => { ui.style.display = '
 
 // 4. Animation WebXR
 function animate() {
-  updateSpeedFromVR();
+  updateVRControls();
   if (speedVal) speedVal.textContent = sim.speed.toFixed(1);
 
   for (const planete of planetes) {

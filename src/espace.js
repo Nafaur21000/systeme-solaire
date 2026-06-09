@@ -41,8 +41,8 @@ export default class Espace {
     // A la sortie : on remet tout a zero pour retrouver la vue souris (OrbitControls).
     this.renderer.xr.addEventListener('sessionstart', () => {
       this.controls.enabled = false;
-      this.cameraRig.position.set(0, 45, 45);
-      this.cameraRig.rotation.set(-Math.PI / 4, 0, 0);
+      this.cameraRig.position.set(0, 18, 26);
+      this.cameraRig.rotation.set(-Math.PI / 5, 0, 0);
     });
     this.renderer.xr.addEventListener('sessionend', () => {
       this.cameraRig.position.set(0, 0, 0);
