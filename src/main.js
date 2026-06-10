@@ -36,6 +36,7 @@ const _desired = new THREE.Vector3();
 const _dummy = new THREE.Object3D();
 const _fwd = new THREE.Vector3();
 const _right = new THREE.Vector3();
+const _camPos = new THREE.Vector3();
 
 // =========================================================================
 //  MODE FICHE : un clic isole la planete (les autres disparaissent), elle ne
@@ -49,7 +50,7 @@ function focusOn(planet) {
   sim.zoom = 1;
 
   if (espace.renderer.xr.isPresenting) {
-    facePlanetInVR(planet);
+    placePlanetInFront(planet);
   } else {
     planet.getWorldPosition(_p);
     const r = planet.rayon;
@@ -81,18 +82,18 @@ function handleClick(planet) {
   if (planet) focusOn(planet);
 }
 
-function facePlanetInVR(planet) {
+// En VR : on amene la planete DEVANT le regard actuel par une simple
+// translation du rig (aucune rotation), pour ne pas avoir a se retourner.
+function placePlanetInFront(planet) {
   if (!espace.renderer.xr.isPresenting) return;
   planet.getWorldPosition(_p);
-  _dir.copy(_p);
-  if (_dir.lengthSq() < 0.001) _dir.set(0, 0, 1);
-  _dir.normalize();
-  const d = (planet.rayon * 5 + 4) * sim.zoom;
-  _desired.copy(_p).addScaledVector(_dir, d);
-  _desired.y += planet.rayon * 2 + 1.5;
-  _dummy.position.copy(_desired);
-  _dummy.lookAt(_p);
-  espace.cameraRig.rotation.copy(_dummy.rotation);
+  espace.camera.getWorldPosition(_camPos);
+  espace.camera.getWorldDirection(_fwd);
+  _fwd.normalize();
+  const d = planet.rayon * 3.5 + 5;        // distance d'observation
+  _desired.copy(_p).addScaledVector(_fwd, -d); // ou la camera devrait etre
+  _desired.sub(_camPos);                    // delta a appliquer au rig
+  espace.cameraRig.position.add(_desired);
 }
 
 // 2. Manettes VR (attachees au rig pour suivre le joueur)
@@ -170,8 +171,23 @@ function updateVRInput() {
 
     if (src.handedness === 'right') {
       if (X) { sim.speed = Math.min(5, Math.max(0, sim.speed + X * 0.02)); if (slider) slider.value = sim.speed; }
-      if (sim.focus) { if (Y) sim.zoom = Math.min(5, Math.max(0.4, sim.zoom + Y * 0.03)); }
-      else { moveU += -Y; } // haut = monter
+      if (sim.focus) {
+        // Dolly : avancer/reculer vers la planete le long du regard (haut = approcher)
+        if (Y) {
+          sim.focus.getWorldPosition(_p);
+          espace.camera.getWorldPosition(_camPos);
+          _dir.copy(_p).sub(_camPos);
+          const dist = _dir.length();
+          if (dist > 0.001) {
+            _dir.normalize();
+            let step = -Y * 0.5;
+            if (step > 0) step = Math.min(step, Math.max(0, dist - (sim.focus.rayon + 1.5)));
+            espace.cameraRig.position.addScaledVector(_dir, step);
+          }
+        }
+      } else {
+        moveU += -Y; // haut = monter
+      }
       // Boutons A / B (manette droite) = volume - / +
       if (gp.buttons[4] && gp.buttons[4].pressed) sim.volume = Math.max(0, sim.volume - 0.01);
       if (gp.buttons[5] && gp.buttons[5].pressed) sim.volume = Math.min(1, sim.volume + 0.01);
@@ -193,20 +209,13 @@ function updateVRInput() {
   }
 }
 
-// 3. Director : en mode focus on suit la planete ; en mode libre c'est toi qui pilotes
+// 3. Director : en mode fiche sur ordinateur la camera vise la planete ;
+//    en VR le rig reste ou placePlanetInFront l'a mis (+ dolly au joystick).
 function updateCamera() {
   const inVR = espace.renderer.xr.isPresenting;
   if (sim.focus) {
-    sim.focus.getWorldPosition(_p);
-    if (inVR) {
-      _dir.copy(_p);
-      if (_dir.lengthSq() < 0.001) _dir.set(0, 0, 1);
-      _dir.normalize();
-      const d = (sim.focus.rayon * 5 + 4) * sim.zoom;
-      _desired.copy(_p).addScaledVector(_dir, d);
-      _desired.y += sim.focus.rayon * 2 + 1.5;
-      espace.cameraRig.position.lerp(_desired, 0.08);
-    } else {
+    if (!inVR) {
+      sim.focus.getWorldPosition(_p);
       espace.controls.target.lerp(_p, 0.1);
     }
   } else if (!inVR) {
@@ -250,7 +259,6 @@ function animate() {
 
   for (const planete of planetes) {
     planete.update();
-    planete.lookAtCamera(espace.camera);
   }
   espace.render();
 }
