@@ -97,6 +97,7 @@
     "vitesseOrbite": 0.002,
     "inclinaison": 26.7,
     "soundPath": "/audio/saturn_radio.mp3",
+    "ring": { "texturePath": "/2k_saturn_ring_alpha.png", "innerRadius": 4.5, "outerRadius": 8 },
     "description": "Geante gazeuse celebre pour ses anneaux de glace et de roche. Diametre de 116 460 km. Si peu dense qu'elle flotterait sur l'eau. Composee surtout d'hydrogene et d'helium. Avec 285 lunes confirmees, elle detient le record du systeme solaire ; sa plus grande lune, Titan, possede une atmosphere dense.",
     "moons": [
       { "name": "Mimas",     "texturePath": "/2k_moon.jpg", "rayon": 0.12, "vitesseRotation": 0.006, "distanceOrbite": 4.5, "vitesseOrbite": 0.07, "description": "Son grand cratere lui donne un air d'Etoile de la Mort de Star Wars." },

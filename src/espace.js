@@ -2,9 +2,11 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 
-// Pose initiale du rig en VR (vue d'ensemble, Soleil centre)
-export const INITIAL_RIG_POS = new THREE.Vector3(0, 18, 26);
-export const INITIAL_RIG_ROT = new THREE.Euler(-Math.PI / 5, 0, 0);
+// Pose initiale du rig en VR (vue d'ensemble). Rig droit (non incline) :
+// plus confortable pour voler librement aux joysticks ; tu regardes vers le
+// bas avec la tete pour voir le systeme etale devant/sous toi.
+export const INITIAL_RIG_POS = new THREE.Vector3(0, 12, 30);
+export const INITIAL_RIG_ROT = new THREE.Euler(0, 0, 0);
 
 export default class Espace {
   constructor() {
