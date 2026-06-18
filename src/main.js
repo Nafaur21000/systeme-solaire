@@ -9,7 +9,7 @@ import './style.css';
 const espace = new Espace();
 const planetes = [];
 
-// 1. Instanciation des astres
+// Instancie chaque planète (et ses lunes si elles existent).
 for (const config of configsPlanetes) {
   const planete = new Planet(espace.scene, config, null, espace.audioListener);
   planete.init();
@@ -24,10 +24,10 @@ for (const config of configsPlanetes) {
   }
 }
 
-// Liste des maillages cliquables (on ne raycast que ca : evite de toucher le laser)
+// Liste des meshes cliquables pour le raycasting.
 const planetMeshes = planetes.map((p) => p.mesh);
 
-// --- Vecteurs reutilises ---
+// Vecteurs réutilisés pour limiter les allocations dans la boucle.
 const ORIGIN = new THREE.Vector3(0, 0, 0);
 const UP = new THREE.Vector3(0, 1, 0);
 const _p = new THREE.Vector3();
@@ -38,15 +38,14 @@ const _fwd = new THREE.Vector3();
 const _right = new THREE.Vector3();
 const _camPos = new THREE.Vector3();
 
-// =========================================================================
-//  MODE FICHE : un clic isole la planete (les autres disparaissent), elle ne
-//  derive plus, texte a cote + son. Un clic n'importe ou -> retour au systeme.
-// =========================================================================
 function focusOn(planet) {
-  for (const q of planetes) { q.hideInfo(); q.setMeshVisible(q === planet); }
+  for (const q of planetes) {
+    q.hideInfo();
+    q.setMeshVisible(q === planet);
+  }
   planet.showInfo();
   sim.focus = planet;
-  sim.frozen = true; // on fige les orbites : la planete ne derive plus
+  sim.frozen = true;
   sim.zoom = 1;
 
   if (espace.renderer.xr.isPresenting) {
@@ -60,7 +59,10 @@ function focusOn(planet) {
 }
 
 function resetView() {
-  for (const q of planetes) { q.hideInfo(); q.setMeshVisible(true); } // on remontre tout
+  for (const q of planetes) {
+    q.hideInfo();
+    q.setMeshVisible(true);
+  }
   sim.focus = null;
   sim.frozen = false;
   sim.zoom = 1;
@@ -73,30 +75,27 @@ function resetView() {
   }
 }
 
-// Regle commune a la souris et a la manette :
-//  - en mode fiche : n'importe quel clic ramene au systeme
-//  - sinon         : un clic sur une planete ouvre sa fiche
 function handleClick(planet) {
   espace.startAmbient();
-  if (sim.focus) { resetView(); return; }
+  if (sim.focus) {
+    resetView();
+    return;
+  }
   if (planet) focusOn(planet);
 }
 
-// En VR : on amene la planete DEVANT le regard actuel par une simple
-// translation du rig (aucune rotation), pour ne pas avoir a se retourner.
 function placePlanetInFront(planet) {
   if (!espace.renderer.xr.isPresenting) return;
   planet.getWorldPosition(_p);
   espace.camera.getWorldPosition(_camPos);
   espace.camera.getWorldDirection(_fwd);
   _fwd.normalize();
-  const d = planet.rayon * 3.5 + 5;        // distance d'observation
-  _desired.copy(_p).addScaledVector(_fwd, -d); // ou la camera devrait etre
-  _desired.sub(_camPos);                    // delta a appliquer au rig
+  const d = planet.rayon * 3.5 + 5;
+  _desired.copy(_p).addScaledVector(_fwd, -d);
+  _desired.sub(_camPos);
   espace.cameraRig.position.add(_desired);
 }
 
-// 2. Manettes VR (attachees au rig pour suivre le joueur)
 const controllers = [];
 for (let i = 0; i < 2; i++) {
   const controller = espace.renderer.xr.getController(i);
@@ -112,13 +111,15 @@ for (let i = 0; i < 2; i++) {
   controllers.push(controller);
 }
 
-// Survol : a chaque image on calcule la planete visee et on pose le reticule
-// (inutile en mode fiche, ou tout clic ramene au systeme)
 function updateHover() {
   if (!espace.renderer.xr.isPresenting) return;
   for (const c of controllers) {
     const marker = c.userData.marker;
-    if (sim.focus) { c.userData.hovered = null; if (marker) marker.position.z = -LASER_LENGTH; continue; }
+    if (sim.focus) {
+      c.userData.hovered = null;
+      if (marker) marker.position.z = -LASER_LENGTH;
+      continue;
+    }
     const hits = getVRRaycaster(c).intersectObjects(planetMeshes, false);
     if (hits.length > 0) {
       c.userData.hovered = hits[0].object.planetRef;
@@ -130,11 +131,13 @@ function updateHover() {
   }
 }
 
-// 2b. Clic souris sur ordinateur
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 let downX = 0, downY = 0;
-window.addEventListener('pointerdown', (e) => { downX = e.clientX; downY = e.clientY; });
+window.addEventListener('pointerdown', (e) => {
+  downX = e.clientX;
+  downY = e.clientY;
+});
 window.addEventListener('pointerup', (e) => {
   if (espace.renderer.xr.isPresenting) return;
   if (e.target.closest && e.target.closest('#speed-ui')) return;
@@ -147,14 +150,6 @@ window.addEventListener('pointerup', (e) => {
   handleClick(hits.length > 0 ? hits[0].object.planetRef : null);
 });
 
-// =========================================================================
-//  COMMANDES JOYSTICKS EN VR
-//  Mode libre (aucune planete selectionnee) :
-//    GAUCHE : avancer/reculer (haut/bas) + se decaler (gauche/droite)
-//    DROIT  : monter/descendre (haut/bas) + vitesse de simulation (gauche/droite)
-//  Mode focus :
-//    DROIT  : distance a la planete (haut/bas) + vitesse (gauche/droite)
-// =========================================================================
 function updateVRInput() {
   const session = espace.renderer.xr.getSession();
   if (!session) return;
@@ -170,9 +165,11 @@ function updateVRInput() {
     const Y = Math.abs(ay) > 0.15 ? ay : 0;
 
     if (src.handedness === 'right') {
-      if (X) { sim.speed = Math.min(5, Math.max(0, sim.speed + X * 0.02)); if (slider) slider.value = sim.speed; }
+      if (X) {
+        sim.speed = Math.min(5, Math.max(0, sim.speed + X * 0.02));
+        if (slider) slider.value = sim.speed;
+      }
       if (sim.focus) {
-        // Dolly : avancer/reculer vers la planete le long du regard (haut = approcher)
         if (Y) {
           sim.focus.getWorldPosition(_p);
           espace.camera.getWorldPosition(_camPos);
@@ -186,13 +183,15 @@ function updateVRInput() {
           }
         }
       } else {
-        moveU += -Y; // haut = monter
+        moveU += -Y;
       }
-      // Boutons A / B (manette droite) = volume - / +
       if (gp.buttons[4] && gp.buttons[4].pressed) sim.volume = Math.max(0, sim.volume - 0.01);
       if (gp.buttons[5] && gp.buttons[5].pressed) sim.volume = Math.min(1, sim.volume + 0.01);
     } else {
-      if (!sim.focus) { moveS += X; moveF += -Y; } // haut = avancer
+      if (!sim.focus) {
+        moveS += X;
+        moveF += -Y;
+      }
     }
   }
 
@@ -202,6 +201,7 @@ function updateVRInput() {
     if (_fwd.lengthSq() < 0.0001) _fwd.set(0, 0, -1);
     _fwd.normalize();
     _right.crossVectors(_fwd, UP).normalize();
+
     const sp = 0.4;
     rig.position.addScaledVector(_fwd, moveF * sp);
     rig.position.addScaledVector(_right, moveS * sp);
@@ -209,8 +209,6 @@ function updateVRInput() {
   }
 }
 
-// 3. Director : en mode fiche sur ordinateur la camera vise la planete ;
-//    en VR le rig reste ou placePlanetInFront l'a mis (+ dolly au joystick).
 function updateCamera() {
   const inVR = espace.renderer.xr.isPresenting;
   if (sim.focus) {
@@ -223,7 +221,6 @@ function updateCamera() {
   }
 }
 
-// 4. Interface vitesse sur ordinateur
 const ui = document.createElement('div');
 ui.id = 'speed-ui';
 ui.innerHTML = `
@@ -240,19 +237,18 @@ const volVal = document.getElementById('vol-val');
 slider.addEventListener('input', () => { sim.speed = parseFloat(slider.value); });
 volSlider.addEventListener('input', () => { sim.volume = parseFloat(volSlider.value); });
 window.addEventListener('keydown', (e) => {
-  if (e.key === '+' || e.key === 'ArrowUp')   sim.speed = Math.min(5, sim.speed + 0.1);
-  if (e.key === '-' || e.key === 'ArrowDown')  sim.speed = Math.max(0, sim.speed - 0.1);
+  if (e.key === '+' || e.key === 'ArrowUp') sim.speed = Math.min(5, sim.speed + 0.1);
+  if (e.key === '-' || e.key === 'ArrowDown') sim.speed = Math.max(0, sim.speed - 0.1);
   slider.value = sim.speed;
 });
 espace.renderer.xr.addEventListener('sessionstart', () => { ui.style.display = 'none'; });
-espace.renderer.xr.addEventListener('sessionend',   () => { ui.style.display = 'block'; });
+espace.renderer.xr.addEventListener('sessionend', () => { ui.style.display = 'block'; });
 
-// 5. Boucle d'animation
 function animate() {
   updateVRInput();
   updateHover();
   updateCamera();
-  espace.audioListener.setMasterVolume(sim.volume); // volume general
+  espace.audioListener.setMasterVolume(sim.volume);
   if (speedVal) speedVal.textContent = sim.speed.toFixed(1);
   if (volSlider) volSlider.value = sim.volume;
   if (volVal) volVal.textContent = Math.round(sim.volume * 100);

@@ -5,7 +5,7 @@ export default class TextDisplay {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
 
-    // Resolution elevee pour un texte bien net
+    // Résolution élevée pour un texte net sur la texture.
     this.canvas.width = 1280;
     this.canvas.height = 860;
 
@@ -15,9 +15,9 @@ export default class TextDisplay {
 
     this._draw();
 
+    // Crée la texture Three.js à partir du canvas.
     this.texture = new THREE.CanvasTexture(this.canvas);
     this.texture.colorSpace = THREE.SRGBColorSpace;
-    // Net : pas de mipmaps (source du flou), filtrage lineaire + anisotropie
     this.texture.minFilter = THREE.LinearFilter;
     this.texture.magFilter = THREE.LinearFilter;
     this.texture.generateMipmaps = false;
@@ -32,7 +32,6 @@ export default class TextDisplay {
 
     this.sprite = new THREE.Sprite(material);
     this.sprite.renderOrder = 999;
-    // Panneau plus grand (ratio ~1.49 comme le canvas)
     this.sprite.scale.set(7.5, 5.0, 1);
   }
 
@@ -41,7 +40,9 @@ export default class TextDisplay {
     this.sprite.material.opacity = v ? 1.0 : 0.0;
   }
 
-  toggle() { this.setVisible(!this.isVisible); }
+  toggle() {
+    this.setVisible(!this.isVisible);
+  }
 
   _draw() {
     const ctx = this.context;
@@ -51,21 +52,29 @@ export default class TextDisplay {
     ctx.clearRect(0, 0, w, h);
 
     ctx.fillStyle = 'rgba(10, 15, 30, 0.9)';
-    if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(15, 15, w - 30, h - 30, 30); ctx.fill(); }
-    else ctx.fillRect(15, 15, w - 30, h - 30);
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(15, 15, w - 30, h - 30, 30);
+      ctx.fill();
+    } else {
+      ctx.fillRect(15, 15, w - 30, h - 30);
+    }
 
     ctx.strokeStyle = '#00ffcc';
     ctx.lineWidth = 6;
-    if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(15, 15, w - 30, h - 30, 30); ctx.stroke(); }
-    else ctx.strokeRect(15, 15, w - 30, h - 30);
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(15, 15, w - 30, h - 30, 30);
+      ctx.stroke();
+    } else {
+      ctx.strokeRect(15, 15, w - 30, h - 30);
+    }
 
-    // Titre
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 72px Arial';
     ctx.textAlign = 'center';
     ctx.fillText(this.title, w / 2, 110);
 
-    // Separateur
     ctx.strokeStyle = 'rgba(0, 255, 204, 0.5)';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -73,7 +82,6 @@ export default class TextDisplay {
     ctx.lineTo(w - 70, 150);
     ctx.stroke();
 
-    // Description
     ctx.fillStyle = '#e2e8f0';
     ctx.font = '46px Arial';
     ctx.textAlign = 'left';

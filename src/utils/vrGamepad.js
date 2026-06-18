@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 export const LASER_LENGTH = 60;
 
-// Cree le rayon laser + son reticule (accessible via group.userData.marker)
+// Crée un pointeur laser et un marqueur pour les contrôleurs VR.
 export function createLaserPointer() {
   const points = [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -LASER_LENGTH)];
   const geometryLine = new THREE.BufferGeometry().setFromPoints(points);
@@ -18,11 +18,11 @@ export function createLaserPointer() {
   marker.position.set(0, 0, -LASER_LENGTH);
   group.add(marker);
 
-  group.userData.marker = marker; // pour deplacer le reticule sur la cible
+  group.userData.marker = marker;
   return group;
 }
 
-// Origine + direction du rayon depuis la manette (methode compatible emulateur)
+// Calcule l'origine et la direction du rayon depuis la manette VR.
 export function getVRRaycaster(controller) {
   const origin = new THREE.Vector3();
   controller.getWorldPosition(origin);

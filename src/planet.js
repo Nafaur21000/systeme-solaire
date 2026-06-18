@@ -5,6 +5,8 @@ import { sim } from './state.js';
 const _camWorldPos = new Vector3();
 const _ringVert = new Vector3();
 
+// Représente une planète ou une lune dans la scène Three.js.
+// Chaque objet possède sa propre orbite, rotation, texture, son et panneau d'information.
 export default class Planet {
   constructor(scene, config, parent = null, audioListener = null) {
     this.scene = scene;
@@ -21,12 +23,13 @@ export default class Planet {
     this.ringConfig = config.ring ?? null;
     this.audioListener = audioListener;
     this.soundPath = config.soundPath ?? null;
-    this.description = config.description ?? "Aucune description disponible.";
+    this.description = config.description ?? 'Aucune description disponible.';
     this.sound = null;
     this.ring = null;
     this.textDisplay = null;
   }
 
+  // Initialise la géométrie, le matériau, la structure de groupes et les composants audio/texte.
   init() {
     this.pivot = new Group();
     this.parentObject.add(this.pivot);
@@ -56,7 +59,6 @@ export default class Planet {
 
     if (this.ringConfig) this._createRing();
 
-    // Panneau de texte place A COTE de la planete (a droite), cache au depart
     this.textDisplay = new TextDisplay(this.name, this.description);
     this.textDisplay.sprite.position.set(this.rayon + 4, 0, 0);
     this.anchor.add(this.textDisplay.sprite);
@@ -75,10 +77,11 @@ export default class Planet {
       new AudioLoader().load(this.soundPath, (buf) => {
         this.sound.setBuffer(buf);
         this.sound.setVolume(0.5);
-      }, undefined, () => console.error(`Erreur chargement audio pour ${this.name} (${this.soundPath})`));
+      }, undefined, () => console.error('Erreur chargement audio pour ' + this.name + ' (' + this.soundPath + ')'));
     }
   }
 
+  // Crée un anneau autour de la planète si une configuration d'anneau est fournie.
   _createRing() {
     const inner = this.ringConfig.innerRadius ?? this.rayon * 1.3;
     const outer = this.ringConfig.outerRadius ?? this.rayon * 2.2;
@@ -99,12 +102,12 @@ export default class Planet {
     this.tilt.add(this.ring);
   }
 
-  // Affiche/masque la planete elle-meme (pour le mode fiche)
   setMeshVisible(v) {
     this.mesh.visible = v;
     if (this.ring) this.ring.visible = v;
   }
 
+  // Affiche les informations et lance le son associé à la planète.
   showInfo() {
     if (this.textDisplay) this.textDisplay.setVisible(true);
 
@@ -114,7 +117,7 @@ export default class Planet {
     if (this.sound && this.sound.buffer) {
       const ctx = this.sound.context;
       if (ctx && ctx.state === 'suspended') ctx.resume();
-      if (this.sound.isPlaying) this.sound.stop(); // on relance pour bien entendre le changement
+      if (this.sound.isPlaying) this.sound.stop();
       this.sound.play();
       sim.activeSound = this.sound;
       console.log('Son joue :', this.name);
@@ -123,6 +126,7 @@ export default class Planet {
     }
   }
 
+  // Cache le panneau d'information et arrête le son de cette planète.
   hideInfo() {
     if (this.textDisplay) this.textDisplay.setVisible(false);
     if (this.sound && this.sound.isPlaying) this.sound.stop();
@@ -140,9 +144,10 @@ export default class Planet {
     }
   }
 
+  // Met à jour la rotation de la planète et l'orbite si la simulation n'est pas figée.
   update() {
     const s = sim.speed * 0.5;
-    this.mesh.rotation.y += this.vitesseRotation * s;     // rotation sur elle-meme : toujours
-    if (!sim.frozen) this.pivot.rotation.y += this.vitesseOrbite * s; // orbite : figee en mode fiche
+    this.mesh.rotation.y += this.vitesseRotation * s;
+    if (!sim.frozen) this.pivot.rotation.y += this.vitesseOrbite * s;
   }
 }

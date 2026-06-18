@@ -1,9 +1,9 @@
-/* Reset basique pour que le canvas 3D occupe tout l'ecran */
+/* Reset basique pour que le canvas 3D occupe tout l'écran */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { overflow: hidden; background: #000; font-family: Arial, sans-serif; }
 canvas { display: block; }
 
-/* --- Curseur de vitesse (visible sur ordinateur, cache en VR) --- */
+/* --- Curseur de vitesse et volume visible sur ordinateur --- */
 #speed-ui {
   position: fixed;
   top: 16px;
@@ -17,5 +17,9 @@ canvas { display: block; }
   font-size: 14px;
   user-select: none;
 }
+
+/* Chaque label s'affiche sur sa propre ligne. */
 #speed-ui label { display: block; margin-bottom: 6px; }
+
+/* Curseurs stylisés pour s'intégrer à l'interface. */
 #speed-ui input[type="range"] { width: 180px; accent-color: #00ffcc; cursor: pointer; }
